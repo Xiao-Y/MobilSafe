@@ -67,20 +67,30 @@ public class ContactAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        ImageView imageView = null;
-        TextView title = null;
-        TextView text = null;
-        if (view == null || i < count) {
+    public View getView(int i, View convertView, ViewGroup viewGroup) {
+        ContactHolder ch;
+        View view;
+        if (convertView == null) {
             //为每一条数据加载布局
             view = LayoutInflater.from(context).inflate(R.layout.contact_item_view, null);
-            imageView = (ImageView) view.findViewById(R.id.color_image);
-            title = (TextView) view.findViewById(R.id.color_title);
-            text = (TextView) view.findViewById(R.id.color_text);
+            ch = new ContactHolder();
+            ch.imageView = (ImageView) view.findViewById(R.id.color_image);
+            ch.title = (TextView) view.findViewById(R.id.color_title);
+            ch.text = (TextView) view.findViewById(R.id.color_text);
+            view.setTag(ch);
+        } else {
+            view = convertView;
+            ch = (ContactHolder) view.getTag();
         }
-        imageView.setImageBitmap(contactPhotoList.get(i));
-        title.setText(contactsNameList.get(i));
-        text.setText(phoneNumberList.get(i));
+        ch.imageView.setImageBitmap(contactPhotoList.get(i));
+        ch.title.setText(contactsNameList.get(i));
+        ch.text.setText(phoneNumberList.get(i));
         return view;
     }
+}
+
+class ContactHolder {
+    ImageView imageView;
+    TextView title;
+    TextView text;
 }
