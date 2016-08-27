@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.itheima.mobilesafe.R;
+import com.itheima.mobilesafe.service.GPSService;
 
 /**
  * 短信广播接收器
@@ -33,6 +36,18 @@ public class SMSReceiver extends BroadcastReceiver {
                 String body = sms.getMessageBody();
                 switch (body) {
                     case "#*location*#"://GPS追踪
+                        //当接收到GPS追踪消息时，启动位置追踪服务
+                        Intent i = new Intent(context, GPSService.class);
+                        context.startService(i);
+                        //将位置信息用短信发给安全号码
+                        SharedPreferences sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
+                        String lastlocation = sp.getString("lastlocation", null);
+                        if (TextUtils.isEmpty(lastlocation)) {
+                            SmsManager.getDefault().sendTextMessage(sender, null, "还没有获取位置，正在努力中...", null, null);
+                        } else {
+                            SmsManager.getDefault().sendTextMessage(sender, null, lastlocation, null, null);
+                        }
+
                         Log.i(TAG, "#*location*#");
                         //终止广播，防止其它软件接收
                         abortBroadcast();
