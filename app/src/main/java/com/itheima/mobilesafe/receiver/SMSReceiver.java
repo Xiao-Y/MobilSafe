@@ -3,6 +3,7 @@ package com.itheima.mobilesafe.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
@@ -13,36 +14,43 @@ import android.util.Log;
 public class SMSReceiver extends BroadcastReceiver {
 
     private final static String TAG = "SMSReceiver";
+    private SharedPreferences sp;
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
+        //安全号码
+        String phone = sp.getString("phone", "");
+
         Object[] objects = (Object[]) intent.getExtras().get("pdus");
         for (Object b : objects) {
             SmsMessage sms = SmsMessage.createFromPdu((byte[]) b);
             String sender = sms.getOriginatingAddress();
-            String body = sms.getMessageBody();
-            switch (body) {
-                case "#*location*#"://GPS追踪
-                    Log.i(TAG, "#*location*#");
-                    //终止广播，防止其它软件接收
-                    abortBroadcast();
-                    break;
-                case "#*alarm*#"://播放报警
-                    Log.i(TAG, "#*alarm*#");
-                    //终止广播，防止其它软件接收
-                    abortBroadcast();
-                    break;
-                case "#*wipadata*#"://远程销毁数据
-                    Log.i(TAG, "#*wipadata*#");
-                    //终止广播，防止其它软件接收
-                    abortBroadcast();
-                    break;
-                case "#*lockscreen*#"://行程锁定
-                    Log.i(TAG, "#*lockscreen*#");
-                    //终止广播，防止其它软件接收
-                    abortBroadcast();
-                    break;
-                default:
+            if (sender.contains(phone)) {
+                String body = sms.getMessageBody();
+                switch (body) {
+                    case "#*location*#"://GPS追踪
+                        Log.i(TAG, "#*location*#");
+                        //终止广播，防止其它软件接收
+                        abortBroadcast();
+                        break;
+                    case "#*alarm*#"://播放报警
+                        Log.i(TAG, "#*alarm*#");
+                        //终止广播，防止其它软件接收
+                        abortBroadcast();
+                        break;
+                    case "#*wipadata*#"://远程销毁数据
+                        Log.i(TAG, "#*wipadata*#");
+                        //终止广播，防止其它软件接收
+                        abortBroadcast();
+                        break;
+                    case "#*lockscreen*#"://行程锁定
+                        Log.i(TAG, "#*lockscreen*#");
+                        //终止广播，防止其它软件接收
+                        abortBroadcast();
+                        break;
+                    default:
+                }
             }
         }
     }
