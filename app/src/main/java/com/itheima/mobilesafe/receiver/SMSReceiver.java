@@ -4,8 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.telephony.SmsMessage;
 import android.util.Log;
+
+import com.itheima.mobilesafe.R;
 
 /**
  * 短信广播接收器
@@ -36,7 +39,14 @@ public class SMSReceiver extends BroadcastReceiver {
                         break;
                     case "#*alarm*#"://播放报警
                         Log.i(TAG, "#*alarm*#");
-                        //终止广播，防止其它软件接收
+                        MediaPlayer player = MediaPlayer.create(context, R.raw.ylzs);
+                        //循环播放
+                        player.setLooping(true);
+                        //声音开到最大
+                        player.setVolume(1.0f, 1.0f);
+                        //开始播放
+                        player.start();
+                        //终止接收短信广播，防止其它软件接收
                         abortBroadcast();
                         break;
                     case "#*wipadata*#"://远程销毁数据
