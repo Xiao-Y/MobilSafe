@@ -13,6 +13,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.itheima.mobilesafe.atools.AtoolsActivity;
 import com.itheima.mobilesafe.lastfind.ShowLastFindDialog;
 import com.itheima.mobilesafe.setting.SettingActivity;
 
@@ -42,12 +43,16 @@ public class HomeActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 8:// 进入设置中心
-                        Intent intent = new Intent(HomeActivity.this, SettingActivity.class);
-                        startActivity(intent);
+                        Intent settingIntent = new Intent(HomeActivity.this, SettingActivity.class);
+                        startActivity(settingIntent);
                         break;
                     case 0:// 点击手机防盗
                         new ShowLastFindDialog(HomeActivity.this, sp);
-                        //showLastFindDialog();
+                        break;
+                    case 7:// 进入高级工具
+                        Intent atoolsIntent = new Intent(HomeActivity.this, AtoolsActivity.class);
+                        startActivity(atoolsIntent);
+                        break;
                     default:
                         break;
                 }

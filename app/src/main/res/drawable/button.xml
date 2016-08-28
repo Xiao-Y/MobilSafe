@@ -6,7 +6,7 @@
             <!--色值-->
             <solid android:color="#E79429"/>
             <!--圆角-->
-            <corners android:radius="10dp"/>
+            <corners android:radius="5dp"/>
         </shape>
     </item>
     <item android:state_focused="true">
@@ -14,13 +14,13 @@
             <!--色值-->
             <solid android:color="#e79429"/>
             <!--圆角-->
-            <corners android:radius="10dp"/>
+            <corners android:radius="5dp"/>
         </shape>
     </item>
     <item>
         <shape>
             <solid android:color="#f6aa3e"/>
-            <corners android:radius="10dp"/>
+            <corners android:radius="5dp"/>
         </shape>
     </item>
 

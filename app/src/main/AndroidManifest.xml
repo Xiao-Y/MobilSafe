@@ -54,7 +54,10 @@
         <activity android:name="com.itheima.mobilesafe.lastfind.pagesub.Setup4Activity"/>
         <!-- 读取联系人 -->
         <activity android:name="com.itheima.mobilesafe.lastfind.SelectContactActivity"/>
-
+        <!-- 高级工具 -->
+        <activity android:name="com.itheima.mobilesafe.atools.AtoolsActivity"/>
+        <!-- 号码归属地查询 -->
+        <activity android:name="com.itheima.mobilesafe.atools.NumberAddressQueryActivity"/>
         <!-- 引导广播接收器：用于接收开机的广播 -->
         <receiver android:name=".receiver.BootCompleteReceiver">
             <intent-filter>
