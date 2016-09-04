@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itheima.mobilesafe.R;
+import com.itheima.mobilesafe.db.dao.NumberAddressQueryUtils;
 
 /**
  * 号码归属地查询
@@ -41,6 +42,8 @@ public class NumberAddressQueryActivity extends Activity {
             Toast.makeText(this, "查询号码不能为空..", Toast.LENGTH_SHORT).show();
             return;
         } else {
+            String address = NumberAddressQueryUtils.queryNumber(phone);
+            numbernateAddress.setText(address);
             Toast.makeText(this, "查询号码：" + phone, Toast.LENGTH_SHORT).show();
         }
     }

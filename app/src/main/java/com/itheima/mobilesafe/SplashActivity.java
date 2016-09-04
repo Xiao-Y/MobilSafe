@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
@@ -23,6 +24,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.itheima.mobilesafe.db.DBUtils;
 import com.itheima.mobilesafe.utils.StreamTools;
 
 import net.tsz.afinal.FinalHttp;
@@ -66,6 +68,8 @@ public class SplashActivity extends Activity {
         tv_splash_version.setText("版本号" + getVersionName());
         tv_update_info = (TextView) findViewById(R.id.tv_update_info);
         boolean update = sp.getBoolean("update", false);
+        //复制号码归属地离线查询的数据库到指定的位置
+        DBUtils.copyDB(this, "address.db");
         if (update) {
             // 检查升级
             checkUpdate();
