@@ -2,7 +2,9 @@ package com.itheima.mobilesafe.atools;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +31,27 @@ public class NumberAddressQueryActivity extends Activity {
         edPhone = (EditText) findViewById(R.id.ed_phone);
         btQuery = (Button) findViewById(R.id.bt_query);
         numbernateAddress = (TextView) findViewById(R.id.tv_bum_add);
+
+        //当输入域改变时，触发
+        edPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence != null && charSequence.length() >= 3) {
+                    String address = NumberAddressQueryUtils.queryNumber(NumberAddressQueryActivity.this, charSequence.toString());
+                    numbernateAddress.setText(address);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     /**
@@ -42,9 +65,9 @@ public class NumberAddressQueryActivity extends Activity {
             Toast.makeText(this, "查询号码不能为空..", Toast.LENGTH_SHORT).show();
             return;
         } else {
-            String address = NumberAddressQueryUtils.queryNumber(phone);
+            String address = NumberAddressQueryUtils.queryNumber(this, phone);
             numbernateAddress.setText(address);
-            Toast.makeText(this, "查询号码：" + phone, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "查询号码：" + phone, Toast.LENGTH_SHORT).show();
         }
     }
 }

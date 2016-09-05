@@ -17,7 +17,8 @@ public class DBUtils {
      */
     public static void copyDB(Context context, String fileName) {
         try {
-            File file = new File(context.getFilesDir(), fileName);
+            String filePath = context.getFilesDir().getAbsolutePath();
+            File file = new File(filePath, fileName);
             //如果文件存在，就不复制
             if (file.exists() && file.length() > 0) {
                 return;
