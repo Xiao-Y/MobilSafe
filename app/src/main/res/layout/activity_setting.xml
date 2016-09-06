@@ -17,4 +17,12 @@
         itheima:desc_on="设置自动更新已经开启"
         itheima:title="设置自动更新"/>
 
+    <com.itheima.mobilesafe.ui.SettingItemView
+        android:id="@+id/siv_show_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        itheima:desc_off="设置显示来电归属地已经关闭"
+        itheima:desc_on="设置显示来电归属地已经开启"
+        itheima:title="设置显示来电归属地"/>
+
 </LinearLayout>

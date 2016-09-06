@@ -27,6 +27,7 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
+        android:name=".utils.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -87,5 +88,7 @@
         </receiver>
         <!-- 用于手机定位 -->
         <service android:name=".service.GPSService"/>
+        <!-- 来电号码归属地显示 -->
+        <service android:name=".service.AddressService"/>
     </application>
 </manifest>
