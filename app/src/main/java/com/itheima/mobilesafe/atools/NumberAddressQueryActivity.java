@@ -48,7 +48,7 @@ public class NumberAddressQueryActivity extends Activity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence != null && charSequence.length() >= 3) {
-                    String address = NumberAddressQueryUtils.queryNumber(NumberAddressQueryActivity.this, charSequence.toString());
+                    String address = NumberAddressQueryUtils.queryNumber(charSequence.toString());
                     numbernateAddress.setText(address);
                 }
             }
@@ -76,7 +76,7 @@ public class NumberAddressQueryActivity extends Activity {
             //-1-不重复，0-重复
             vibrator.vibrate(pattern, -1);
         } else {
-            String address = NumberAddressQueryUtils.queryNumber(this, phone);
+            String address = NumberAddressQueryUtils.queryNumber(phone);
             numbernateAddress.setText(address);
             //Toast.makeText(this, "查询号码：" + phone, Toast.LENGTH_SHORT).show();
         }

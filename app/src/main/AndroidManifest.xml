@@ -25,6 +25,9 @@
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
     <!-- 允许振动 -->
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <!--允许程序监视修改或放弃拨出电话-->
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+
 
     <application
         android:name=".utils.MyApplication"
@@ -86,6 +89,7 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
             </intent-filter>
         </receiver>
+
         <!-- 用于手机定位 -->
         <service android:name=".service.GPSService"/>
         <!-- 来电号码归属地显示 -->

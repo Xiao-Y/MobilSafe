@@ -9,7 +9,7 @@ import android.telephony.TelephonyManager;
 import java.util.Objects;
 
 /**
- * 引导广播接收器
+ * 引导广播接收器(开机启动)
  * Created by billow on 2016/8/21.
  */
 public class BootCompleteReceiver extends BroadcastReceiver {

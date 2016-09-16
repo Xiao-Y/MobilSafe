@@ -1,8 +1,9 @@
 package com.itheima.mobilesafe.db.dao;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.itheima.mobilesafe.utils.MyApplication;
 
 import java.io.File;
 
@@ -20,10 +21,10 @@ public class NumberAddressQueryUtils {
      * @param number
      * @return
      */
-    public static String queryNumber(Context context, String number) {
+    public static String queryNumber(String number) {
         String address = number;
         // path 把address.db这个数据库拷贝到data/data/《包名》/files/address.db
-        String path = context.getFilesDir().getAbsolutePath() + File.separator + "address.db";
+        String path = MyApplication.getContext().getFilesDir().getAbsolutePath() + File.separator + "address.db";
         SQLiteDatabase database = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
         // 手机号码 13 14 15 16 18
         // 手机号码的正则表达式
