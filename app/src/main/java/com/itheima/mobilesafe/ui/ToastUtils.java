@@ -90,8 +90,6 @@ public class ToastUtils {
                         wm.getDefaultDisplay().getMetrics(metric);
                         int widthPixels = metric.widthPixels;
                         int heightPixels = metric.heightPixels;
-                        //                        int widthPixels = wm.getDefaultDisplay().getWidth();
-                        //                        int heightPixels = wm.getDefaultDisplay().getHeight();
                         int width = view.getWidth();
                         int height = view.getHeight();
                         int dWidth = widthPixels - width;
@@ -122,8 +120,8 @@ public class ToastUtils {
 
         TextView textview = (TextView) view.findViewById(R.id.tv_address);
         //"半透明","活力橙","卫士蓝","金属灰","苹果绿"
-        int[] ids = { R.drawable.call_locate_white9, R.drawable.call_locate_orange9, R.drawable.call_locate_blue9
-                , R.drawable.call_locate_gray9, R.drawable.call_locate_green9 };
+        int[] ids = { R.drawable.call_locate_white, R.drawable.call_locate_orange, R.drawable.call_locate_blue
+                , R.drawable.call_locate_gray, R.drawable.call_locate_green };
         sp = context.getSharedPreferences("config", context.MODE_PRIVATE);
         view.setBackgroundResource(ids[sp.getInt("which", 0)]);
         textview.setText(message);
