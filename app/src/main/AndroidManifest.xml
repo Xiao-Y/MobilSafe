@@ -30,7 +30,6 @@
     <!-- 允许一个系统级别的弹窗 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
-
     <application
         android:name=".utils.MyApplication"
         android:allowBackup="true"
@@ -66,6 +65,8 @@
         <activity android:name="com.itheima.mobilesafe.atools.AtoolsActivity"/>
         <!-- 号码归属地查询 -->
         <activity android:name="com.itheima.mobilesafe.atools.NumberAddressQueryActivity"/>
+        <!-- 通讯卫士 -->
+        <activity android:name="com.itheima.mobilesafe.callsafe.CallSmsSafeActivity"/>
         <!-- 引导广播接收器：用于接收开机的广播 -->
         <receiver android:name=".receiver.BootCompleteReceiver">
             <intent-filter>

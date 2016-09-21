@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.itheima.mobilesafe.atools.AtoolsActivity;
+import com.itheima.mobilesafe.callsafe.CallSmsSafeActivity;
 import com.itheima.mobilesafe.lastfind.ShowLastFindDialog;
 import com.itheima.mobilesafe.setting.SettingActivity;
 
@@ -41,19 +42,22 @@ public class HomeActivity extends Activity {
         list_home.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent;
                 switch (position) {
                     case 8:// 进入设置中心
-                        Intent settingIntent = new Intent(HomeActivity.this, SettingActivity.class);
-                        startActivity(settingIntent);
+                        intent = new Intent(HomeActivity.this, SettingActivity.class);
+                        startActivity(intent);
                         break;
                     case 0:// 点击手机防盗
                         new ShowLastFindDialog(HomeActivity.this, sp);
                         break;
                     case 7:// 进入高级工具
-                        Intent atoolsIntent = new Intent(HomeActivity.this, AtoolsActivity.class);
-                        startActivity(atoolsIntent);
+                        intent = new Intent(HomeActivity.this, AtoolsActivity.class);
+                        startActivity(intent);
                         break;
-                    default:
+                    case 1:// 进入通讯卫士
+                        intent = new Intent(HomeActivity.this, CallSmsSafeActivity.class);
+                        startActivity(intent);
                         break;
                 }
             }

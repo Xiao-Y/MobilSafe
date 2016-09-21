@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import com.itheima.mobilesafe.utils.MyApplication;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 号码归属
@@ -23,6 +25,13 @@ public class NumberAddressQueryUtils {
      */
     public static String queryNumber(String number) {
         String address = number;
+        Map<Integer, String> map = new HashMap<>();
+        map.put(3, "匪警号码");
+        map.put(4, "模拟器");
+        map.put(5, "客服电话");
+        map.put(7, "本地号码");
+        map.put(8, "本地号码");
+
         // path 把address.db这个数据库拷贝到data/data/《包名》/files/address.db
         String path = MyApplication.getContext().getFilesDir().getAbsolutePath() + File.separator + "address.db";
         SQLiteDatabase database = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
@@ -38,48 +47,25 @@ public class NumberAddressQueryUtils {
             }
             cursor.close();
         } else {
-            // 其他的电话号码
-            switch (number.length()) {
-                case 3:
-                    // 110
-                    address = "匪警号码";
-                    break;
-                case 4:
-                    // 5554
-                    address = "模拟器";
-                    break;
-                case 5:
-                    // 10086
-                    address = "客服电话";
-                    break;
-                case 7:
-                    //
-                    address = "本地号码";
-                    break;
-                case 8:
-                    address = "本地号码";
-                    break;
-                default:
-                    // /处理长途电话 10
-                    if (number.length() > 10 && number.startsWith("0")) {
-                        // 010-59790386
-                        Cursor cursor = database.rawQuery("select location from data2 where area = ?",
-                                new String[] { number.substring(1, 3) });
-                        while (cursor.moveToNext()) {
-                            String location = cursor.getString(0);
-                            address = location.substring(0, location.length() - 2);
-                        }
-                        cursor.close();
-                        // 0855-59790386
-                        cursor = database.rawQuery(
-                                "select location from data2 where area = ?",
-                                new String[] { number.substring(1, 4) });
-                        while (cursor.moveToNext()) {
-                            String location = cursor.getString(0);
-                            address = location.substring(0, location.length() - 2);
-                        }
-                    }
-                    break;
+            if (number.length() > 10 && number.startsWith("0")) {
+                // 010-59790386
+                Cursor cursor = database.rawQuery("select location from data2 where area = ?",
+                        new String[] { number.substring(1, 3) });
+                while (cursor.moveToNext()) {
+                    String location = cursor.getString(0);
+                    address = location.substring(0, location.length() - 2);
+                }
+                cursor.close();
+                // 0855-59790386
+                cursor = database.rawQuery(
+                        "select location from data2 where area = ?",
+                        new String[] { number.substring(1, 4) });
+                while (cursor.moveToNext()) {
+                    String location = cursor.getString(0);
+                    address = location.substring(0, location.length() - 2);
+                }
+            } else {
+                address = map.get(number.length());
             }
         }
         return address;
