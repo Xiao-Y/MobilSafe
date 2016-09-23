@@ -30,28 +30,36 @@
         <item name="android:textSize">20sp</item>
     </style>
     <!-- 下一步按钮样式 -->
-    <style name="button_next_style">
+    <style name="button_next_style" parent="@style/button_ok">
         <item name="android:onClick">next</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">30dp</item>
         <item name="android:layout_alignParentBottom">true</item>
         <item name="android:layout_alignParentRight">true</item>
-        <item name="android:background">@drawable/button</item>
         <item name="android:drawableRight">@mipmap/next</item>
+        <item name="android:layout_marginBottom">3dp</item>
+        <item name="android:layout_marginRight">10dp</item>
         <item name="android:text">下一步</item>
-        <item name="android:textSize">20sp</item>
     </style>
     <!-- 上一步按钮样式 -->
-    <style name="button_prev_style">
+    <style name="button_prev_style" parent="@style/button_ok">
         <item name="android:onClick">prev</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">30dp</item>
         <item name="android:layout_alignParentBottom">true</item>
         <item name="android:layout_alignParentLeft">true</item>
-        <item name="android:background">@drawable/button</item>
         <item name="android:drawableLeft">@mipmap/previous</item>
+        <item name="android:layout_marginBottom">3dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
         <item name="android:text">上一步</item>
-        <item name="android:textSize">20sp</item>
     </style>
 
+    <!-- 确定按钮样式 -->
+    <style name="button_ok">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:text">确定</item>
+        <item name="android:paddingBottom">7dp</item>
+        <item name="android:paddingTop">7dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
 </resources>

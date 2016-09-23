@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
-    android:layout_height="match_parent"
-    android:background="#ffffff"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#ffffff"
+              android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -12,36 +12,40 @@
         android:gravity="center"
         android:text="设置密码"
         android:textColor="#000000"
-        android:textSize="22sp" />
+        android:textSize="22sp"/>
 
     <EditText
         android:id="@+id/tx_setup_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入密码"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/ok"
+            style="@style/button_ok"
             android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button"
-            android:textSize="25sp"
-            android:text="确定" />
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:text="确定"/>
 
         <Button
             android:id="@+id/cancel"
+            style="@style/button_ok"
             android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button"
-            android:textSize="25sp"
-            android:text="取消" />
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="5dp"
+            android:text="取消"/>
     </LinearLayout>
 
 </LinearLayout>

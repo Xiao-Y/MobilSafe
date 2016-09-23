@@ -9,7 +9,9 @@ import com.itheima.mobilesafe.db.BlackNumberDBOpenHelper;
 import com.itheima.mobilesafe.domain.BlackNumberInfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 黑名单表操作
@@ -19,9 +21,14 @@ public class BlackNumberDao {
 
     private BlackNumberDBOpenHelper blackNumberDBOpenHelper;
     private SQLiteDatabase db;
+    private Map<String, String> map;
 
     public BlackNumberDao(Context context) {
         blackNumberDBOpenHelper = new BlackNumberDBOpenHelper(context);
+        map = new HashMap<>();
+        map.put("1", "拦截来电");
+        map.put("2", "拦截短信");
+        map.put("3", "拦截所有");
     }
 
     /**
@@ -33,7 +40,7 @@ public class BlackNumberDao {
     public boolean find(String number) throws Exception {
         boolean result = false;
         db = blackNumberDBOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from blackNumber where number = ?", new String[] { number });
+        Cursor cursor = db.rawQuery("select * from blackNumber where number = ?", new String[]{number});
         if (cursor.moveToNext()) {
             result = true;
         }
@@ -52,9 +59,9 @@ public class BlackNumberDao {
     public String findMode(String number) throws Exception {
         String result = null;
         SQLiteDatabase db = blackNumberDBOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select mode from blackNumber where number = ?", new String[] { number });
+        Cursor cursor = db.rawQuery("select mode from blackNumber where number = ?", new String[]{number});
         if (cursor.moveToNext()) {
-            result = cursor.getString(0);
+            result = map.get(cursor.getString(0));
         }
         cursor.close();
         db.close();
@@ -74,7 +81,8 @@ public class BlackNumberDao {
         while (cursor.moveToNext()) {
             BlackNumberInfo info = new BlackNumberInfo();
             info.setNumber(cursor.getString(0));
-            info.setMode(cursor.getString(1));
+            String result = map.get(cursor.getString(1));
+            info.setMode(result);
             list.add(info);
         }
         cursor.close();
@@ -104,7 +112,7 @@ public class BlackNumberDao {
      */
     public void delete(String number) {
         db = blackNumberDBOpenHelper.getWritableDatabase();
-        db.delete("blackNumber", "number = ?", new String[] { number });
+        db.delete("blackNumber", "number = ?", new String[]{number});
         db.close();
     }
 
@@ -118,7 +126,16 @@ public class BlackNumberDao {
         db = blackNumberDBOpenHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("mode", newmode);
-        db.update("blackNumber", values, "number = ?", new String[] { number });
+        db.update("blackNumber", values, "number = ?", new String[]{number});
+        db.close();
+    }
+
+    /**
+     * 清空黑名单
+     */
+    public void deleteAll() {
+        db = blackNumberDBOpenHelper.getWritableDatabase();
+        db.execSQL("delete from blackNumber");
         db.close();
     }
 }
