@@ -8,6 +8,8 @@ import com.itheima.mobilesafe.db.dao.BlackNumberDao;
 import com.itheima.mobilesafe.domain.BlackNumberInfo;
 
 import java.util.List;
+import java.util.Random;
+import java.util.regex.Matcher;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
@@ -25,7 +27,11 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
     public void testAdd() {
         BlackNumberDao dao = new BlackNumberDao(getContext());
-        dao.add("123456789", "2");
+        for (int i = 1; i < 100; i++) {
+            int mode = i % 3 + 1;
+            String s = String.valueOf(Math.random() * 500000 + 500000);
+            dao.add(s, mode + "");
+        }
     }
 
     public void testFind() throws Exception {
@@ -60,5 +66,10 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         dao.delete("123456789");
         boolean b = dao.find("123456789");
         System.out.println(b);
+    }
+
+    public void testDeleteAll() {
+        BlackNumberDao dao = new BlackNumberDao(getContext());
+        dao.deleteAll();
     }
 }
