@@ -4,9 +4,28 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <TextView
-        style="@style/title_style"
-        android:text="通讯卫士"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_style"
+            android:text="通讯卫士"/>
+
+        <Button
+            style="@style/button_ok"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:onClick="addBlackNumber"
+            android:text="添加"/>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lv_call_sms_safe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 
 </LinearLayout>

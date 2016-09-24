@@ -89,9 +89,12 @@ public class SelectContactActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 List<String> phoneNumberList = (List<String>) map.get(SelectContactActivity.PHONE_NUMBER);
+                List<String> contactsNameList = (List<String>) map.get(SelectContactActivity.CONTACTS_NAME);
                 String phone = phoneNumberList.get(i);
+                String displayName = contactsNameList.get(i);
                 Intent intent = new Intent();
                 intent.putExtra("phone", phone);
+                intent.putExtra("name", displayName);
                 //返回给上一个页面
                 setResult(0, intent);
                 finish();
