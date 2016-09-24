@@ -21,14 +21,24 @@ public class BlackNumberDao {
 
     private BlackNumberDBOpenHelper blackNumberDBOpenHelper;
     private SQLiteDatabase db;
-    private Map<String, String> map;
+    private static Map<String, String> map;
 
     public BlackNumberDao(Context context) {
         blackNumberDBOpenHelper = new BlackNumberDBOpenHelper(context);
         map = new HashMap<>();
-        map.put("1", "拦截来电");
-        map.put("2", "拦截短信");
+        map.put("1", "来电拦截");
+        map.put("2", "短信拦截");
         map.put("3", "拦截所有");
+    }
+
+    /**
+     * 通过key获取拦截模式
+     *
+     * @param key
+     * @return
+     */
+    public static String getModeByKey(String key) {
+        return map.get(key);
     }
 
     /**
@@ -40,7 +50,7 @@ public class BlackNumberDao {
     public boolean find(String number) throws Exception {
         boolean result = false;
         db = blackNumberDBOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from blackNumber where number = ?", new String[]{number});
+        Cursor cursor = db.rawQuery("select * from blackNumber where number = ?", new String[] { number });
         if (cursor.moveToNext()) {
             result = true;
         }
@@ -59,7 +69,7 @@ public class BlackNumberDao {
     public String findMode(String number) throws Exception {
         String result = null;
         SQLiteDatabase db = blackNumberDBOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select mode from blackNumber where number = ?", new String[]{number});
+        Cursor cursor = db.rawQuery("select mode from blackNumber where number = ?", new String[] { number });
         if (cursor.moveToNext()) {
             result = map.get(cursor.getString(0));
         }
@@ -77,12 +87,14 @@ public class BlackNumberDao {
     public List<BlackNumberInfo> findAll() throws Exception {
         List<BlackNumberInfo> list = new ArrayList<>();
         SQLiteDatabase db = blackNumberDBOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select number, mode from blackNumber ", null);
+        Cursor cursor = db.rawQuery("select number, mode, displayName from blackNumber order by _id desc ", null);
         while (cursor.moveToNext()) {
             BlackNumberInfo info = new BlackNumberInfo();
             info.setNumber(cursor.getString(0));
             String result = map.get(cursor.getString(1));
             info.setMode(result);
+            String displayName = map.get(cursor.getString(2));
+            info.setDisplayName(displayName);
             list.add(info);
         }
         cursor.close();
@@ -106,13 +118,30 @@ public class BlackNumberDao {
     }
 
     /**
+     * 添加黑名单
+     *
+     * @param displayName
+     * @param number
+     * @param mode        拦截模式 1.电话拦截 2.短信拦截 3.全部拦截
+     */
+    public void add(String displayName, String number, String mode) {
+        db = blackNumberDBOpenHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("number", number);
+        values.put("mode", mode);
+        values.put("displayName", displayName);
+        db.insert("blackNumber", null, values);
+        db.close();
+    }
+
+    /**
      * 根据电话号删除黑名单
      *
      * @param number
      */
     public void delete(String number) {
         db = blackNumberDBOpenHelper.getWritableDatabase();
-        db.delete("blackNumber", "number = ?", new String[]{number});
+        db.delete("blackNumber", "number = ?", new String[] { number });
         db.close();
     }
 
@@ -126,7 +155,7 @@ public class BlackNumberDao {
         db = blackNumberDBOpenHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("mode", newmode);
-        db.update("blackNumber", values, "number = ?", new String[]{number});
+        db.update("blackNumber", values, "number = ?", new String[] { number });
         db.close();
     }
 

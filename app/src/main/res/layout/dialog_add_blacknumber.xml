@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#ffffff"
+              android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#8866ff00"
+        android:gravity="center"
+        android:text="设置黑名单号码"
+        android:textColor="#000000"
+        android:textSize="22sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- 隐藏“黑名单”号码的名称 -->
+        <EditText
+            android:id="@+id/et_blackName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="黑名单名称"
+            android:visibility="gone"/>
+
+        <EditText
+            android:id="@+id/et_blackNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="请输黑名单号码"/>
+
+        <Button
+            style="@style/button_ok"
+            android:layout_width="0dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:onClick="selectContact"
+            android:text="通讯录"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cb_phone"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:text="来电拦截"/>
+
+        <CheckBox
+            android:id="@+id/cb_sms"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="5dp"
+            android:text="短信拦截"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/ok"
+            style="@style/button_ok"
+            android:layout_width="140dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:text="确定"/>
+
+        <Button
+            android:id="@+id/cancel"
+            style="@style/button_ok"
+            android:layout_width="140dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="5dp"
+            android:text="取消"/>
+    </LinearLayout>
+
+</LinearLayout>

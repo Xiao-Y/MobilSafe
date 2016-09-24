@@ -8,6 +8,7 @@ public class BlackNumberInfo {
 
     private String number;
     private String mode;
+    private String displayName;
 
     public String getNumber() {
         return number;
@@ -25,11 +26,20 @@ public class BlackNumberInfo {
         this.mode = mode;
     }
 
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
     @Override
     public String toString() {
         return "BlackNumberInfo{" +
                 "number='" + number + '\'' +
                 ", mode='" + mode + '\'' +
+                ", displayName='" + displayName + '\'' +
                 '}';
     }
 }
