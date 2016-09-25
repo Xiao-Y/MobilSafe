@@ -100,6 +100,7 @@ public class CallSmsSafeActivity extends Activity {
             holder.blackNumber.setText(info.getNumber());
             holder.mode.setText(info.getMode());
             holder.blackName.setText(info.getDisplayName());
+            //删除黑名单
             holder.deleteBlackNumber.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -123,6 +124,9 @@ public class CallSmsSafeActivity extends Activity {
         }
     }
 
+    /**
+     * 用于缓存
+     */
     class ViewHolder {
         TextView blackNumber;
         TextView mode;
@@ -204,6 +208,13 @@ public class CallSmsSafeActivity extends Activity {
         startActivityForResult(intent, 0);
     }
 
+    /**
+     * 处理通讯录返回的数据
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
