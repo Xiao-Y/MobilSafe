@@ -97,5 +97,7 @@
         <service android:name=".service.GPSService"/>
         <!-- 来电号码归属地显示 -->
         <service android:name=".service.AddressService"/>
+        <!-- 黑名单拦截服务 -->
+        <service android:name=".service.CallSmsSafeService"/>
     </application>
 </manifest>
