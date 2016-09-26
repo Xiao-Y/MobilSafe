@@ -26,8 +26,16 @@
         itheima:title="设置显示来电归属地"/>
 
     <com.itheima.mobilesafe.ui.SettingClickView
-        android:id="@+id/scv_changebg"
+        android:id="@+id/scv_change_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <com.itheima.mobilesafe.ui.SettingItemView
+        android:id="@+id/siv_balck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        itheima:desc_off="黑名单拦截已经关闭"
+        itheima:desc_on="黑名单拦截已经开启"
+        itheima:title="设置拦截短信和来电"/>
 
 </LinearLayout>

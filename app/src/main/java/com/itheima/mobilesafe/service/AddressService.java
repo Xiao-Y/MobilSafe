@@ -19,7 +19,6 @@ import com.itheima.mobilesafe.receiver.OutCallReceiver;
  */
 public class AddressService extends Service {
 
-
     //电话服务
     private TelephonyManager tm;
     private IncomingListenerPhone incominglistenerPhone;
@@ -42,7 +41,7 @@ public class AddressService extends Service {
         wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         // 监听来电
-        incominglistenerPhone = new IncomingListenerPhone(wm, view);
+        incominglistenerPhone = new IncomingListenerPhone(wm, view, IncomingListenerPhone.LISTENER_FLAG_ADDRESS_SERVICE);
         tm.listen(incominglistenerPhone, PhoneStateListener.LISTEN_CALL_STATE);
         //用代码去注册广播接收者
         IntentFilter filter = new IntentFilter();

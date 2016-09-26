@@ -16,7 +16,7 @@ import com.itheima.mobilesafe.R;
 import com.itheima.mobilesafe.service.GPSService;
 
 /**
- * 短信广播接收器
+ * 手机防盗短信广播接收器
  * Created by billow on 2016/8/24.
  */
 public class SMSReceiver extends BroadcastReceiver {
