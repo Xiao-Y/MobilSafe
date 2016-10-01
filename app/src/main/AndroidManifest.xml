@@ -35,6 +35,9 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <!-- 允许拨打或挂断电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <!-- 允许程序读写短信 -->
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.WRITE_SMS"/>
 
     <application
         android:name=".utils.MyApplication"
