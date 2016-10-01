@@ -80,8 +80,6 @@ public class IncomingListenerPhone extends PhoneStateListener {
                     if (view != null) {
                         wm.removeView(view);
                     }
-                } else if (listenerFlag == LISTENER_FLAG_BALCK_NUMBER) {
-
                 }
                 break;
             default:
