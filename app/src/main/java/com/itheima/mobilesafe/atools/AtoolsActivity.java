@@ -1,11 +1,13 @@
 package com.itheima.mobilesafe.atools;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.itheima.mobilesafe.R;
+import com.itheima.mobilesafe.ui.ToastUtils;
 import com.itheima.mobilesafe.utils.SmsUtil;
 
 /**
@@ -13,6 +15,8 @@ import com.itheima.mobilesafe.utils.SmsUtil;
  * Created by billow on 2016/8/28.
  */
 public class AtoolsActivity extends Activity {
+
+    private ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,11 +40,44 @@ public class AtoolsActivity extends Activity {
      * @param view
      */
     public void smsBackup(View view) {
-        try {
-            SmsUtil.smsBackup(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setTitle("短信备份中...");
+        progressDialog.show();
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    SmsUtil.smsBackup(getApplicationContext(), new SmsUtil.BackUpCallBack() {
+                        @Override
+                        public void beforeBackUp(int max) {
+                            progressDialog.setMax(max);
+                        }
+
+                        @Override
+                        public void onSmsBackUp(int progress) {
+                            progressDialog.setProgress(progress);
+                        }
+                    });
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ToastUtils.toastLong("短信备份成功！");
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ToastUtils.toastLong("短信备份失败！");
+                        }
+                    });
+                } finally {
+                    progressDialog.dismiss();
+                }
+            }
+        }.start();
     }
 
     /**

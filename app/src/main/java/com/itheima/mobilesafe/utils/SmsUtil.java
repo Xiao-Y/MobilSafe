@@ -20,11 +20,32 @@ import java.io.FileOutputStream;
 public class SmsUtil {
 
     /**
+     * 短信备份接口
+     */
+    public interface BackUpCallBack {
+
+        /**
+         * 短信备份前
+         *
+         * @param max 短信最大数量
+         */
+        void beforeBackUp(int max);
+
+        /**
+         * 短信备份中改变进度条的ui
+         *
+         * @param progress
+         */
+        void onSmsBackUp(int progress);
+
+    }
+
+    /**
      * 短信备份
      *
      * @param context
      */
-    public static void smsBackup(Context context) throws Exception {
+    public static void smsBackup(Context context, BackUpCallBack callBack) throws Exception {
         String encode = "UTF-8";
         File file = new File(Environment.getExternalStorageDirectory(), "backup.xml");
         FileOutputStream fos = new FileOutputStream(file);
@@ -35,6 +56,10 @@ public class SmsUtil {
         ContentResolver resolver = context.getContentResolver();
         Uri uri = Uri.parse("content://sms/");
         Cursor cursor = resolver.query(uri, new String[] { "body", "address", "type", "date" }, null, null, null);
+        int max = cursor.getCount();
+        //短信最大数量
+        callBack.beforeBackUp(max);
+        int progress = 0;
         while (cursor.moveToNext()) {
             sz.startTag(null, "sms");
             //<![CDATA[&]]>
@@ -56,6 +81,9 @@ public class SmsUtil {
             sz.endTag(null, "date");
 
             sz.endTag(null, "sms");
+            progress++;
+            //短信备份中改变进度条的ui
+            callBack.onSmsBackUp(progress);
         }
         cursor.close();
         sz.endTag(null, "smss");
