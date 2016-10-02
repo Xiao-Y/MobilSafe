@@ -48,7 +48,7 @@ public class AtoolsActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    SmsUtil.smsBackup(getApplicationContext(), new SmsUtil.BackUpCallBack() {
+                    SmsUtil.smsBackup(new SmsUtil.BackUpCallBack() {
                         @Override
                         public void beforeBackUp(int max) {
                             progressDialog.setMax(max);
@@ -59,6 +59,7 @@ public class AtoolsActivity extends Activity {
                             progressDialog.setProgress(progress);
                         }
                     });
+                    //子线程中更新ui
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -67,6 +68,7 @@ public class AtoolsActivity extends Activity {
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
+                    //子线程中更新ui
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -86,6 +88,45 @@ public class AtoolsActivity extends Activity {
      * @param view
      */
     public void smsRestore(View view) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setTitle("短信还原中...");
+        progressDialog.show();
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    SmsUtil.smsRestore(true, new SmsUtil.BackUpCallBack() {
+                        @Override
+                        public void beforeBackUp(int max) {
+                            progressDialog.setMax(max);
+                        }
 
+                        @Override
+                        public void onSmsBackUp(int progress) {
+                            progressDialog.setProgress(progress);
+                        }
+                    });
+                    //子线程中更新ui
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ToastUtils.toastLong("短信还原成功...");
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    //子线程中更新ui
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ToastUtils.toastLong("短信还原出错了...");
+                        }
+                    });
+                } finally {
+                    progressDialog.dismiss();
+                }
+            }
+        }.start();
     }
 }
