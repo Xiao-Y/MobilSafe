@@ -85,6 +85,7 @@ public class BlackNumberDao {
      * @throws Exception
      */
     public List<BlackNumberInfo> findAll() throws Exception {
+        //Thread.sleep(4000);
         List<BlackNumberInfo> list = new ArrayList<>();
         SQLiteDatabase db = blackNumberDBOpenHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select number, mode, displayName from blackNumber order by _id desc ", null);
@@ -164,5 +165,33 @@ public class BlackNumberDao {
         db = blackNumberDBOpenHelper.getWritableDatabase();
         db.execSQL("delete from blackNumber");
         db.close();
+    }
+
+
+    /**
+     * 查询部分的黑名单
+     *
+     * @param offset    从那个地方获取
+     * @param maxnumber 最多获取多少个
+     * @return
+     * @throws Exception
+     */
+    public List<BlackNumberInfo> findPart(int offset, int maxnumber) throws Exception {
+        //Thread.sleep(4000);
+        List<BlackNumberInfo> list = new ArrayList<>();
+        SQLiteDatabase db = blackNumberDBOpenHelper.getReadableDatabase();
+        //limit maxnumber offset offset 相当于 limit offset , maxnumber
+        Cursor cursor = db.rawQuery("select number, mode, displayName from blackNumber order by _id desc limit ? offset ? ",
+                new String[] { String.valueOf(maxnumber), String.valueOf(offset) });
+        while (cursor.moveToNext()) {
+            BlackNumberInfo info = new BlackNumberInfo();
+            info.setNumber(cursor.getString(0));
+            info.setMode(map.get(cursor.getString(1)));
+            info.setDisplayName(cursor.getString(2));
+            list.add(info);
+        }
+        cursor.close();
+        db.close();
+        return list;
     }
 }

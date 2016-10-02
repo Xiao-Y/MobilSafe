@@ -10,11 +10,13 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,14 +26,19 @@ import com.itheima.mobilesafe.db.dao.BlackNumberDao;
 import com.itheima.mobilesafe.domain.BlackNumberInfo;
 import com.itheima.mobilesafe.lastfind.SelectContactActivity;
 import com.itheima.mobilesafe.ui.ToastUtils;
+import com.itheima.mobilesafe.utils.LogUtil;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.itheima.mobilesafe.R.id.lv_call_sms_safe;
 
 /**
  * 通讯卫士
  * Created by billow on 2016/9/21.
  */
 public class CallSmsSafeActivity extends Activity {
+    public final static String GTA = "CallSmsSafeActivity";
 
     private ListView lvCallSmsSafe;
     private EditText etBalckNumber;
@@ -41,21 +48,92 @@ public class CallSmsSafeActivity extends Activity {
     private CheckBox cb_phone;
     private CheckBox cb_sms;
     private MyAdapter adapter;
-    private List<BlackNumberInfo> list;
+    private List<BlackNumberInfo> list = new ArrayList<>();
+    private BlackNumberDao dao;
+    private LinearLayout ll_progressBar;
+    private int offset = 0;
+    private int maxnumber = 10;
+    private boolean flag = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_call_sms_safe);
-        lvCallSmsSafe = (ListView) findViewById(R.id.lv_call_sms_safe);
-        try {
-            BlackNumberDao dao = new BlackNumberDao(this);
-            list = dao.findAll();
-            adapter = new MyAdapter(this, list);
-            lvCallSmsSafe.setAdapter(adapter);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        lvCallSmsSafe = (ListView) findViewById(lv_call_sms_safe);
+        ll_progressBar = (LinearLayout) this.findViewById(R.id.ll_progressBar);
+        dao = new BlackNumberDao(this);
+        this.fillData();
+
+        //对listview的滚动条添加监听
+        lvCallSmsSafe.setOnScrollListener(new AbsListView.OnScrollListener() {
+            //滚动条状态改变时
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                switch (scrollState) {
+                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE://空闲时
+                        LogUtil.i(GTA, "空闲时");
+                        //获取最后一个可见条目在集合中的位置
+                        int index = lvCallSmsSafe.getLastVisiblePosition();
+                        if (index == (list.size() - 1)) {
+                            LogUtil.i(GTA, "移动到了最后，加载更多数据....");
+                            if (flag) {
+                                offset += maxnumber;
+                                fillData();
+                            } else {
+                                ToastUtils.toastShort("没有更多数据加载...");
+                            }
+                        }
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL://触摸滚动条时
+                        LogUtil.i(GTA, "触摸滚动条时");
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING://滑行时
+                        LogUtil.i(GTA, "滑行时");
+                        break;
+                }
+            }
+
+            //滚动的时
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                LogUtil.i(GTA, "滚动:onScroll方法调用");
+            }
+        });
+    }
+
+    /**
+     * 加载更多数据，更新ui
+     */
+    private void fillData() {
+        ll_progressBar.setVisibility(View.VISIBLE);
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    //新查询出来的数据添加数据集中
+                    List<BlackNumberInfo> infoList = dao.findPart(offset, maxnumber);
+                    list.addAll(infoList);
+                    if (infoList.size() < (maxnumber - 1)) {
+                        flag = false;
+                    }
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ll_progressBar.setVisibility(View.INVISIBLE);
+                            if (adapter == null) {
+                                adapter = new MyAdapter(CallSmsSafeActivity.this, list);
+                                lvCallSmsSafe.setAdapter(adapter);
+                            } else {//通知listview更新数据
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
     class MyAdapter extends BaseAdapter {
