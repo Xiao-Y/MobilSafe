@@ -76,6 +76,8 @@
         <activity android:name="com.itheima.mobilesafe.atools.NumberAddressQueryActivity"/>
         <!-- 通讯卫士 -->
         <activity android:name="com.itheima.mobilesafe.callsafe.CallSmsSafeActivity"/>
+        <!-- 软件管理 -->
+        <activity android:name="com.itheima.mobilesafe.appmanger.AppMangerActivity"/>
         <!-- 引导广播接收器：用于接收开机的广播 -->
         <receiver android:name=".receiver.BootCompleteReceiver">
             <intent-filter>

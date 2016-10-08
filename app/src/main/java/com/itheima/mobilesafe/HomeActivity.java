@@ -13,6 +13,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.itheima.mobilesafe.appmanger.AppMangerActivity;
 import com.itheima.mobilesafe.atools.AtoolsActivity;
 import com.itheima.mobilesafe.callsafe.CallSmsSafeActivity;
 import com.itheima.mobilesafe.lastfind.ShowLastFindDialog;
@@ -57,6 +58,10 @@ public class HomeActivity extends Activity {
                         break;
                     case 1:// 进入通讯卫士
                         intent = new Intent(HomeActivity.this, CallSmsSafeActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 2:// 进入软件管理
+                        intent = new Intent(HomeActivity.this, AppMangerActivity.class);
                         startActivity(intent);
                         break;
                 }
