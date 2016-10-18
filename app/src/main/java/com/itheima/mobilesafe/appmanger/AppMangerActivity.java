@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.text.format.Formatter;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,7 +16,10 @@ import com.itheima.mobilesafe.adapter.AppMangerAdapter;
 import com.itheima.mobilesafe.domain.AppInfo;
 import com.itheima.mobilesafe.engine.AppInfoProvider;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by billow on 2016/10/8.
@@ -28,7 +32,15 @@ public class AppMangerActivity extends Activity {
     private TextView tv_avail_sd;
     private ListView lv_app_manger;
     private LinearLayout ll_loading;
+    //应用程序的状态
+    private TextView tv_status;
     private List<AppInfo> appInfos;
+    private List<AppInfo> userApp;//用户app
+    private List<AppInfo> systemApp;//系统app
+    private Map<String, List<AppInfo>> mapAppInfo;
+
+    public AppMangerActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +50,7 @@ public class AppMangerActivity extends Activity {
         tv_avail_sd = (TextView) this.findViewById(R.id.tv_avail_sd);
         lv_app_manger = (ListView) this.findViewById(R.id.lv_app_manger);
         ll_loading = (LinearLayout) this.findViewById(R.id.ll_loading);
+        tv_status = (TextView) this.findViewById(R.id.tv_status);
 
         long sdSize = this.getAvailSpace(Environment.getExternalStorageDirectory().getAbsolutePath());
         long romSize = this.getAvailSpace(Environment.getDataDirectory().getAbsolutePath());
@@ -50,15 +63,45 @@ public class AppMangerActivity extends Activity {
             @Override
             public void run() {
                 appInfos = AppInfoProvider.getAppInfos();
+                userApp = new ArrayList<>();
+                systemApp = new ArrayList<>();
+                for (AppInfo info : appInfos) {
+                    if (info.isUserApp()) {
+                        userApp.add(info);
+                    } else {
+                        systemApp.add(info);
+                    }
+                }
+                mapAppInfo = new HashMap<>();
+                mapAppInfo.put("userApp", userApp);
+                mapAppInfo.put("systemApp", systemApp);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         ll_loading.setVisibility(View.INVISIBLE);
-                        lv_app_manger.setAdapter(new AppMangerAdapter(AppMangerActivity.this, appInfos));
+                        lv_app_manger.setAdapter(new AppMangerAdapter(AppMangerActivity.this, mapAppInfo));
                     }
                 });
             }
         }.start();
+
+        lv_app_manger.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (userApp != null && systemApp != null) {
+                    if (firstVisibleItem > userApp.size()) {
+                        tv_status.setText("系统应用（" + systemApp.size() + "）");
+                    } else {
+                        tv_status.setText("用户应用（" + userApp.size() + "）");
+                    }
+                }
+            }
+        });
     }
 
     /**

@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.itheima.mobilesafe.R;
 import com.itheima.mobilesafe.domain.AppInfo;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 显示应用列表的数据适配器
@@ -24,22 +24,15 @@ import java.util.List;
 public class AppMangerAdapter extends BaseAdapter {
 
     private Context context;
-    private List<AppInfo> appInfos;
     private List<AppInfo> userApp;//用户app
     private List<AppInfo> systemApp;//系统app
+    int conunt = 0;
 
-    public AppMangerAdapter(Context context, List<AppInfo> appInfos) {
+    public AppMangerAdapter(Context context, Map<String, List<AppInfo>> appInfos) {
         this.context = context;
-        this.appInfos = appInfos;
-        userApp = new ArrayList<>();
-        systemApp = new ArrayList<>();
-        for (AppInfo info : appInfos) {
-            if (info.isUserApp()) {
-                userApp.add(info);
-            } else {
-                systemApp.add(info);
-            }
-        }
+        userApp = appInfos.get("userApp");
+        systemApp = appInfos.get("systemApp");
+        conunt = userApp.size() + systemApp.size();
     }
 
     /**
@@ -49,13 +42,14 @@ public class AppMangerAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return appInfos.size() + 2;
+        return conunt + 2;
     }
 
     @Override
-    public AppInfo getItem(int position) {
-        return appInfos.get(position);
+    public Object getItem(int position) {
+        return null;
     }
+
 
     @Override
     public long getItemId(int position) {

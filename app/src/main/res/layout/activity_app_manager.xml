@@ -57,7 +57,15 @@
         <ListView
             android:id="@+id/lv_app_manger"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
+            android:layout_height="match_parent"
+            android:fastScrollEnabled="true"/>
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FF888888"
+            android:text="用户应用（5）"
+            android:textColor="#FFFFFFFF"/>
 
     </FrameLayout>
 
