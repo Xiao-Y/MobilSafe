@@ -17,6 +17,11 @@ import java.util.List;
 
 public class AppInfoProvider {
 
+    /**
+     * 获取app的信息
+     *
+     * @return
+     */
     public static List<AppInfo> getAppInfos() {
 
         List<AppInfo> list = new ArrayList<>();
