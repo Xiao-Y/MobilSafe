@@ -10,6 +10,10 @@ import android.text.format.Formatter;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -21,6 +25,7 @@ import com.itheima.mobilesafe.R;
 import com.itheima.mobilesafe.adapter.AppMangerAdapter;
 import com.itheima.mobilesafe.domain.AppInfo;
 import com.itheima.mobilesafe.engine.AppInfoProvider;
+import com.itheima.mobilesafe.utils.DensityUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -132,16 +137,31 @@ public class AppMangerActivity extends Activity {
                 }
                 dismissPopupWindow();
                 //弹出窗体
-                TextView textView = new TextView(getApplicationContext());
-                textView.setTextColor(Color.BLACK);
-                textView.setText(appInfo.getName());
-                popupWindow = new PopupWindow(textView,
+                //TextView textView = new TextView(getApplicationContext());
+                //textView.setTextColor(Color.BLACK);
+                //textView.setText(appInfo.getName());
+                View contentView = View.inflate(getApplication(), R.layout.popup_app_item, null);
+                //设置动画效果
+                ScaleAnimation sa = new ScaleAnimation(0.3f, 1.0f, 0.3f, 1.0f,
+                        Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0.5f);
+                sa.setDuration(1000);
+                //设置透明效果
+                AlphaAnimation aa = new AlphaAnimation(0.5f, 1.0f);
+                aa.setDuration(100);
+                //动画集（false：独立播放）
+                AnimationSet set = new AnimationSet(false);
+                set.addAnimation(sa);
+                set.addAnimation(aa);
+                contentView.setAnimation(set);
+                popupWindow = new PopupWindow(contentView,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
-                popupWindow.setBackgroundDrawable(new ColorDrawable(Color.RED));
+                //动画效果必须要有背景色
+                popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));//设置背景色为透明
                 int[] location = new int[2];
                 view.getLocationInWindow(location);
-                popupWindow.showAtLocation(parent, Gravity.LEFT | Gravity.TOP, location[0], location[1]);
+                int x = DensityUtil.dip2px(getApplicationContext(), 10);
+                popupWindow.showAtLocation(parent, Gravity.RIGHT | Gravity.TOP, x, location[1]);
             }
         });
     }
