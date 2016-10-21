@@ -19,12 +19,14 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.itheima.mobilesafe.R;
 import com.itheima.mobilesafe.adapter.AppMangerAdapter;
 import com.itheima.mobilesafe.domain.AppInfo;
 import com.itheima.mobilesafe.engine.AppInfoProvider;
+import com.itheima.mobilesafe.listener.popupClickListener;
 import com.itheima.mobilesafe.utils.DensityUtil;
 
 import java.util.ArrayList;
@@ -43,6 +45,12 @@ public class AppMangerActivity extends Activity {
     private TextView tv_avail_sd;
     private ListView lv_app_manger;
     private LinearLayout ll_loading;
+    //启动
+    private RelativeLayout ll_start;
+    //分享
+    private RelativeLayout ll_share;
+    //卸载
+    private RelativeLayout ll_uninstall;
     //应用程序的状态
     private TextView tv_status;
     private List<AppInfo> appInfos;
@@ -51,6 +59,8 @@ public class AppMangerActivity extends Activity {
     private Map<String, List<AppInfo>> mapAppInfo;
     //弹出窗体
     private PopupWindow popupWindow;
+    private AppMangerAdapter ama;
+    private AppInfo appInfo;
 
     public AppMangerActivity() {
     }
@@ -70,33 +80,7 @@ public class AppMangerActivity extends Activity {
         tv_avail_rom.setText("手机内存:" + Formatter.formatFileSize(this, romSize));
         tv_avail_sd.setText("SD卡内存:" + Formatter.formatFileSize(this, sdSize));
 
-
-        ll_loading.setVisibility(View.VISIBLE);
-        new Thread() {
-            @Override
-            public void run() {
-                appInfos = AppInfoProvider.getAppInfos();
-                userApp = new ArrayList<>();
-                systemApp = new ArrayList<>();
-                for (AppInfo info : appInfos) {
-                    if (info.isUserApp()) {
-                        userApp.add(info);
-                    } else {
-                        systemApp.add(info);
-                    }
-                }
-                mapAppInfo = new HashMap<>();
-                mapAppInfo.put("userApp", userApp);
-                mapAppInfo.put("systemApp", systemApp);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ll_loading.setVisibility(View.INVISIBLE);
-                        lv_app_manger.setAdapter(new AppMangerAdapter(AppMangerActivity.this, mapAppInfo));
-                    }
-                });
-            }
-        }.start();
+        this.fillData();
 
         //对ListView滚动添加监听事件
         lv_app_manger.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -123,7 +107,6 @@ public class AppMangerActivity extends Activity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AppInfo appInfo;
                 if (position == 0) {//用户应用标签
                     return;
                 } else if (position == (userApp.size() + 1)) {//系统应用标签
@@ -144,10 +127,10 @@ public class AppMangerActivity extends Activity {
                 //设置动画效果
                 ScaleAnimation sa = new ScaleAnimation(0.3f, 1.0f, 0.3f, 1.0f,
                         Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0.5f);
-                sa.setDuration(1000);
+                sa.setDuration(300);
                 //设置透明效果
                 AlphaAnimation aa = new AlphaAnimation(0.5f, 1.0f);
-                aa.setDuration(100);
+                aa.setDuration(300);
                 //动画集（false：独立播放）
                 AnimationSet set = new AnimationSet(false);
                 set.addAnimation(sa);
@@ -162,8 +145,83 @@ public class AppMangerActivity extends Activity {
                 view.getLocationInWindow(location);
                 int x = DensityUtil.dip2px(getApplicationContext(), 10);
                 popupWindow.showAtLocation(parent, Gravity.RIGHT | Gravity.TOP, x, location[1]);
+                //初始化窗体中的配件
+                ll_share = (RelativeLayout) contentView.findViewById(R.id.ll_share);
+                ll_start = (RelativeLayout) contentView.findViewById(R.id.ll_start);
+                ll_uninstall = (RelativeLayout) contentView.findViewById(R.id.ll_uninstall);
+
+                //分享
+                ll_share.setOnClickListener(new popupClickListener(AppMangerActivity.this, appInfo, new popupClickListener.CallBack() {
+                    @Override
+                    public void callBackBeforeOnClick() {
+                        dismissPopupWindow();
+                    }
+
+                    @Override
+                    public void callBackAfterOnClick() {
+
+                    }
+                }));
+
+                //启动
+                ll_start.setOnClickListener(new popupClickListener(AppMangerActivity.this, appInfo, new popupClickListener.CallBack() {
+                    @Override
+                    public void callBackBeforeOnClick() {
+                        dismissPopupWindow();
+                    }
+
+                    @Override
+                    public void callBackAfterOnClick() {
+
+                    }
+                }));
+
+                //卸载
+                ll_uninstall.setOnClickListener(new popupClickListener(AppMangerActivity.this, appInfo, new popupClickListener.CallBack() {
+                    @Override
+                    public void callBackBeforeOnClick() {
+                        dismissPopupWindow();
+                    }
+
+                    @Override
+                    public void callBackAfterOnClick() {
+                        fillData();
+                    }
+                }));
             }
         });
+    }
+
+    /**
+     * 获取数据
+     */
+    private void fillData() {
+        ll_loading.setVisibility(View.VISIBLE);
+        new Thread() {
+            @Override
+            public void run() {
+                appInfos = AppInfoProvider.getAppInfos();
+                userApp = new ArrayList<>();
+                systemApp = new ArrayList<>();
+                for (AppInfo info : appInfos) {
+                    if (info.isUserApp()) {
+                        userApp.add(info);
+                    } else {
+                        systemApp.add(info);
+                    }
+                }
+                mapAppInfo = new HashMap<>();
+                mapAppInfo.put("userApp", userApp);
+                mapAppInfo.put("systemApp", systemApp);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        lv_app_manger.setAdapter(new AppMangerAdapter(AppMangerActivity.this, mapAppInfo));
+                        ll_loading.setVisibility(View.INVISIBLE);
+                    }
+                });
+            }
+        }.start();
     }
 
     /**

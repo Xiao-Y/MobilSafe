@@ -26,13 +26,11 @@ public class AppMangerAdapter extends BaseAdapter {
     private Context context;
     private List<AppInfo> userApp;//用户app
     private List<AppInfo> systemApp;//系统app
-    int conunt = 0;
+    private Map<String, List<AppInfo>> appInfos;
 
     public AppMangerAdapter(Context context, Map<String, List<AppInfo>> appInfos) {
         this.context = context;
-        userApp = appInfos.get("userApp");
-        systemApp = appInfos.get("systemApp");
-        conunt = userApp.size() + systemApp.size();
+        this.appInfos = appInfos;
     }
 
     /**
@@ -42,7 +40,9 @@ public class AppMangerAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return conunt + 2;
+        userApp = appInfos.get("userApp");
+        systemApp = appInfos.get("systemApp");
+        return userApp.size() + systemApp.size() + 2;
     }
 
     @Override
