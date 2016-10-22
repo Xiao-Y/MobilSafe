@@ -40,6 +40,8 @@
     <!-- 允许程序读写短信 -->
     <uses-permission android:name="android.permission.READ_SMS"/>
     <uses-permission android:name="android.permission.WRITE_SMS"/>
+    <!-- 允许创建快捷方式 -->
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
 
     <application
         android:name=".utils.MyApplication"
@@ -79,7 +81,13 @@
         <!-- 通讯卫士 -->
         <activity android:name="com.itheima.mobilesafe.callsafe.CallSmsSafeActivity"/>
         <!-- 软件管理 -->
-        <activity android:name="com.itheima.mobilesafe.appmanger.AppMangerActivity"/>
+        <activity android:name="com.itheima.mobilesafe.appmanger.AppMangerActivity">
+            <intent-filter>
+                <action android:name="com.itheima.mobilesafe.appmanger.action.APPMANGER_ACTION"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </activity>
         <!-- 引导广播接收器：用于接收开机的广播 -->
         <receiver android:name=".receiver.BootCompleteReceiver">
             <intent-filter>

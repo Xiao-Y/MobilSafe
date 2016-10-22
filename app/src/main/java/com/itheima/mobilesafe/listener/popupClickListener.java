@@ -32,6 +32,7 @@ public class popupClickListener implements View.OnClickListener {
         callBack.callBackAfterOnClick();
         switch (v.getId()) {
             case R.id.ll_share:
+                this.shareApplication();
                 break;
             case R.id.ll_start:
                 this.startApplication();
@@ -45,6 +46,18 @@ public class popupClickListener implements View.OnClickListener {
                 }
                 break;
         }
+    }
+
+    /**
+     * 分享
+     */
+    private void shareApplication() {
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.SEND");
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, "推荐您使用一款软件，名字叫：" + appInfo.getName());
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        context.startActivity(intent);
     }
 
     /**

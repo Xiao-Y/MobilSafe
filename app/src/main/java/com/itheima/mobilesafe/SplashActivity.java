@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
@@ -13,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,6 +24,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.itheima.mobilesafe.appmanger.AppMangerActivity;
 import com.itheima.mobilesafe.db.DBUtils;
 import com.itheima.mobilesafe.utils.StreamTools;
 
@@ -86,6 +87,34 @@ public class SplashActivity extends Activity {
         AlphaAnimation aa = new AlphaAnimation(0.2f, 1.0f);
         aa.setDuration(500);
         findViewById(R.id.rl_root_splash).startAnimation(aa);
+
+        //创建快捷方式
+        installShortCut();
+    }
+
+    /**
+     * 创建快捷方式
+     */
+    private void installShortCut() {
+        //通知创建快捷图标的意图
+        Intent intent = new Intent();
+        intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+        //设置是否重复创建
+        intent.putExtra("duplicate", false);
+        //快捷方式：1.名称、2.图标、3.意图
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "软件管理");
+        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, BitmapFactory.decodeResource(getResources(), R.mipmap.app));
+        //启动应用的意图
+        Intent shortcutIntent = new Intent();
+        //AndroidManifest.xml中添加过滤和分类
+        shortcutIntent.setAction("com.itheima.mobilesafe.appmanger.action.APPMANGER_ACTION");
+        shortcutIntent.addCategory("android.intent.categore.DEFAULT");
+        //点击图标想要启动的activity
+        shortcutIntent.setClass(this, AppMangerActivity.class);
+
+        //通知广播要去创建图标和响应程序
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+        sendBroadcast(intent);
     }
 
     private Handler handler = new Handler() {
