@@ -22,10 +22,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.itheima.mobilesafe.appmanger.AppMangerActivity;
 import com.itheima.mobilesafe.db.DBUtils;
+import com.itheima.mobilesafe.ui.ToastUtils;
 import com.itheima.mobilesafe.utils.StreamTools;
 
 import net.tsz.afinal.FinalHttp;
@@ -132,15 +132,15 @@ public class SplashActivity extends Activity {
                     break;
                 case URL_ERROR:// URL错误
                     enterHome();
-                    Toast.makeText(getApplicationContext(), "URL错误", 0).show();
+                    ToastUtils.toastShort("URL错误");
                     break;
                 case NETWORK_ERROR:// 网络异常
                     enterHome();
-                    Toast.makeText(SplashActivity.this, "网络异常", 0).show();
+                    ToastUtils.toastShort("网络异常");
                     break;
                 case JSON_ERROR:// JSON解析出错
                     enterHome();
-                    Toast.makeText(SplashActivity.this, "JSON解析出错", 0).show();
+                    ToastUtils.toastShort("JSON解析出错");
                     break;
                 default:
                     break;
@@ -248,7 +248,7 @@ public class SplashActivity extends Activity {
                         @Override
                         public void onFailure(Throwable t, int errorNo, String strMsg) {
                             t.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "下载失败", 1).show();
+                            ToastUtils.toastLong("下载失败");
                             super.onFailure(t, errorNo, strMsg);
                         }
 
@@ -282,7 +282,7 @@ public class SplashActivity extends Activity {
                         }
                     });
                 } else {
-                    Toast.makeText(getApplicationContext(), "没有sdcard，请安装上在试", 0).show();
+                    ToastUtils.toastShort("没有sdcard，请安装上在试");
                     return;
                 }
             }
