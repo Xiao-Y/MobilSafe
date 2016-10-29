@@ -18,6 +18,7 @@ import com.itheima.mobilesafe.atools.AtoolsActivity;
 import com.itheima.mobilesafe.callsafe.CallSmsSafeActivity;
 import com.itheima.mobilesafe.lastfind.ShowLastFindDialog;
 import com.itheima.mobilesafe.setting.SettingActivity;
+import com.itheima.mobilesafe.taskmanger.TaskMangerActivity;
 
 public class HomeActivity extends Activity {
 
@@ -62,6 +63,10 @@ public class HomeActivity extends Activity {
                         break;
                     case 2:// 进入软件管理
                         intent = new Intent(HomeActivity.this, AppMangerActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 3:// 进入进程管理
+                        intent = new Intent(HomeActivity.this, TaskMangerActivity.class);
                         startActivity(intent);
                         break;
                 }

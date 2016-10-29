@@ -89,7 +89,7 @@ public class SplashActivity extends Activity {
         findViewById(R.id.rl_root_splash).startAnimation(aa);
 
         //创建快捷方式
-        installShortCut();
+        //installShortCut();
     }
 
     /**

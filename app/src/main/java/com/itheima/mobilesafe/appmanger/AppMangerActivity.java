@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 应用管理器
  * Created by billow on 2016/10/8.
  */
 

@@ -27,11 +27,11 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
     <!-- 获取错略位置 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <!--改变配置：允许当前应用改变配置,如定位-->
+    <!-- 改变配置：允许当前应用改变配置,如定位 -->
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
     <!-- 允许振动 -->
     <uses-permission android:name="android.permission.VIBRATE"/>
-    <!--允许程序监视修改或放弃拨出电话-->
+    <!-- 允许程序监视修改或放弃拨出电话 -->
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
     <!-- 允许一个系统级别的弹窗 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
@@ -50,7 +50,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.itheima.mobilesafe.SplashActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -59,35 +59,39 @@
         </activity>
 
         <!-- 主页 -->
-        <activity android:name="com.itheima.mobilesafe.HomeActivity"/>
+        <activity android:name=".HomeActivity"/>
         <!-- 设置中心 -->
-        <activity android:name="com.itheima.mobilesafe.setting.SettingActivity"/>
+        <activity android:name=".setting.SettingActivity"/>
         <!-- 手机防盗页面 -->
-        <activity android:name="com.itheima.mobilesafe.lastfind.LastFindActivity"/>
+        <activity android:name=".lastfind.LastFindActivity"/>
         <!-- 设置向导1 -->
-        <activity android:name="com.itheima.mobilesafe.lastfind.pagesub.Setup1Activity"/>
+        <activity android:name=".lastfind.pagesub.Setup1Activity"/>
         <!-- 设置向导2 -->
-        <activity android:name="com.itheima.mobilesafe.lastfind.pagesub.Setup2Activity"/>
+        <activity android:name=".lastfind.pagesub.Setup2Activity"/>
         <!-- 设置向导3 -->
-        <activity android:name="com.itheima.mobilesafe.lastfind.pagesub.Setup3Activity"/>
+        <activity android:name=".lastfind.pagesub.Setup3Activity"/>
         <!-- 设置向导4 -->
-        <activity android:name="com.itheima.mobilesafe.lastfind.pagesub.Setup4Activity"/>
+        <activity android:name=".lastfind.pagesub.Setup4Activity"/>
         <!-- 读取联系人 -->
-        <activity android:name="com.itheima.mobilesafe.lastfind.SelectContactActivity"/>
+        <activity android:name=".lastfind.SelectContactActivity"/>
         <!-- 高级工具 -->
-        <activity android:name="com.itheima.mobilesafe.atools.AtoolsActivity"/>
+        <activity android:name=".atools.AtoolsActivity"/>
         <!-- 号码归属地查询 -->
-        <activity android:name="com.itheima.mobilesafe.atools.NumberAddressQueryActivity"/>
+        <activity android:name=".atools.NumberAddressQueryActivity"/>
         <!-- 通讯卫士 -->
-        <activity android:name="com.itheima.mobilesafe.callsafe.CallSmsSafeActivity"/>
+        <activity android:name=".callsafe.CallSmsSafeActivity"/>
         <!-- 软件管理 -->
-        <activity android:name="com.itheima.mobilesafe.appmanger.AppMangerActivity">
+        <activity android:name=".appmanger.AppMangerActivity">
             <intent-filter>
                 <action android:name="com.itheima.mobilesafe.appmanger.action.APPMANGER_ACTION"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
-
         </activity>
+        <!-- 进程管理器-->
+        <activity android:name=".taskmanger.TaskMangerActivity"/>
+
+
         <!-- 引导广播接收器：用于接收开机的广播 -->
         <receiver android:name=".receiver.BootCompleteReceiver">
             <intent-filter>
@@ -109,6 +113,7 @@
             <meta-data
                 android:name="android.app.device_admin"
                 android:resource="@xml/device_admin_sample"/>
+
             <intent-filter>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
             </intent-filter>
@@ -121,4 +126,5 @@
         <!-- 黑名单拦截服务 -->
         <service android:name=".service.CallSmsSafeService"/>
     </application>
+
 </manifest>
