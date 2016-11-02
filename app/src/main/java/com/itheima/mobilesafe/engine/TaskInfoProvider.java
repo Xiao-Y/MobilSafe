@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Debug;
 
+import com.itheima.mobilesafe.R;
 import com.itheima.mobilesafe.domain.TaskInfo;
 import com.itheima.mobilesafe.utils.MyApplication;
 
@@ -50,9 +51,10 @@ public class TaskInfoProvider {
                 } else {//系统进程
                     info.setUserTask(false);
                 }
-
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
+                info.setIcon(context.getResources().getDrawable(R.mipmap.ic_default));
+                info.setName(packname);
             }
             infos.add(info);
         }

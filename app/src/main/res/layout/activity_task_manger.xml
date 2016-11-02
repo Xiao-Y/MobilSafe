@@ -55,7 +55,7 @@
         </LinearLayout>
 
         <ListView
-            android:id="@+id/lv_app_manger"
+            android:id="@+id/lv_task_manger"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fastScrollEnabled="true"/>
@@ -65,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FF888888"
-            android:text="用户应用（0）"
+            android:text="用户进程（0）"
             android:textColor="#FFFFFFFF"/>
 
     </FrameLayout>

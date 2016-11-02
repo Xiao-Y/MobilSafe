@@ -18,6 +18,7 @@ public class TaskInfo {
     private long memsize;
     //是否是用户进程
     private boolean userTask;
+    private boolean checked;
 
     public boolean isUserTask() {
         return userTask;
@@ -57,6 +58,14 @@ public class TaskInfo {
 
     public void setMemsize(long memsize) {
         this.memsize = memsize;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     @Override
