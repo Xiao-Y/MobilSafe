@@ -34,7 +34,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="99999">
 
         <LinearLayout
             android:id="@+id/ll_loading"
@@ -69,5 +70,53 @@
             android:textColor="#FFFFFFFF"/>
 
     </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+
+        <Button
+            style="@style/button_ok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="1"
+            android:onClick="selectAll"
+            android:text="全选"
+            android:textSize="18sp"
+            />
+
+        <Button
+            style="@style/button_ok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:onClick="selectOppo"
+            android:text="反选"
+            android:textSize="18sp"/>
+
+        <Button
+            style="@style/button_ok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:onClick="killTask"
+            android:text="清理"
+            android:textSize="18sp"/>
+
+        <Button
+            style="@style/button_ok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:onClick="enterSetting"
+            android:text="设置"
+            android:textSize="18sp"/>
+    </LinearLayout>
 
 </LinearLayout>

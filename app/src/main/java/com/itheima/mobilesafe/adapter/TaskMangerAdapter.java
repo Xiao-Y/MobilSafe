@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.itheima.mobilesafe.R;
 import com.itheima.mobilesafe.domain.TaskInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,31 +29,18 @@ public class TaskMangerAdapter extends BaseAdapter {
     private List<TaskInfo> userTaskInfo;
     private List<TaskInfo> systemTaskInfo;
 
-    public TaskMangerAdapter(List<TaskInfo> taskInfos) {
-        this.taskInfos = taskInfos;
-        userTaskInfo = new ArrayList<>();
-        systemTaskInfo = new ArrayList<>();
-        for (TaskInfo info : taskInfos) {
-            if (info.isUserTask()) {
-                userTaskInfo.add(info);
-            } else {
-                systemTaskInfo.add(info);
-            }
-        }
-    }
-
-    public TaskMangerAdapter(Context context, List<TaskInfo> taskInfos) {
+    public TaskMangerAdapter(Context context) {
         this.context = context;
-        this.taskInfos = taskInfos;
-        userTaskInfo = new ArrayList<>();
-        systemTaskInfo = new ArrayList<>();
-        for (TaskInfo info : taskInfos) {
-            if (info.isUserTask()) {
-                userTaskInfo.add(info);
-            } else {
-                systemTaskInfo.add(info);
-            }
-        }
+        //        this.taskInfos = taskInfos;
+        //        userTaskInfo = new ArrayList<>();
+        //        systemTaskInfo = new ArrayList<>();
+        //        for (TaskInfo info : taskInfos) {
+        //            if (info.isUserTask()) {
+        //                userTaskInfo.add(info);
+        //            } else {
+        //                systemTaskInfo.add(info);
+        //            }
+        //        }
     }
 
     @Override
@@ -118,5 +104,29 @@ public class TaskMangerAdapter extends BaseAdapter {
         public TextView title;
         public TextView text;
         public CheckBox checkBox;
+    }
+
+    public List<TaskInfo> getSystemTaskInfo() {
+        return systemTaskInfo;
+    }
+
+    public void setSystemTaskInfo(List<TaskInfo> systemTaskInfo) {
+        this.systemTaskInfo = systemTaskInfo;
+    }
+
+    public List<TaskInfo> getUserTaskInfo() {
+        return userTaskInfo;
+    }
+
+    public void setUserTaskInfo(List<TaskInfo> userTaskInfo) {
+        this.userTaskInfo = userTaskInfo;
+    }
+
+    public List<TaskInfo> getTaskInfos() {
+        return taskInfos;
+    }
+
+    public void setTaskInfos(List<TaskInfo> taskInfos) {
+        this.taskInfos = taskInfos;
     }
 }

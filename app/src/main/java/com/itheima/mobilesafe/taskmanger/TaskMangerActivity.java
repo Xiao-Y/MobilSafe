@@ -1,5 +1,7 @@
 package com.itheima.mobilesafe.taskmanger;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.text.format.Formatter;
 import android.view.View;
 import android.widget.AbsListView;
@@ -14,9 +16,11 @@ import com.itheima.mobilesafe.adapter.TaskMangerAdapter;
 import com.itheima.mobilesafe.base.BaseActivity;
 import com.itheima.mobilesafe.domain.TaskInfo;
 import com.itheima.mobilesafe.engine.TaskInfoProvider;
+import com.itheima.mobilesafe.ui.ToastUtils;
 import com.itheima.mobilesafe.utils.SystemInfoUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -34,6 +38,10 @@ public class TaskMangerActivity extends BaseActivity {
     private TextView tv_status;
     private List<TaskInfo> userTaskInfo = new ArrayList<>();
     private List<TaskInfo> systemTaskInfo = new ArrayList<>();
+    private TaskMangerAdapter adapter;
+    private int processCount = 0;
+    private long avaiMem = 0;
+    private long totalMem = 0;
 
     @Override
     public void initView() {
@@ -47,11 +55,6 @@ public class TaskMangerActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        int processCount = SystemInfoUtils.getRunningProcessCount(this);
-        tv_process_count.setText("运行中的进程：" + processCount + " 个");
-        long avaiMem = SystemInfoUtils.getAvaiMem(this);
-        long totalMem = SystemInfoUtils.getTotalMem(this);
-        tv_mem_info.setText("剩余/总内存：" + Formatter.formatFileSize(this, avaiMem) + "/" + Formatter.formatFileSize(this, totalMem));
         //填充数据
         fillData();
         lv_task_manger.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -96,6 +99,17 @@ public class TaskMangerActivity extends BaseActivity {
     }
 
     /**
+     * 设置进程管理器页面中的显示信息
+     */
+    private void setTitle() {
+        processCount = SystemInfoUtils.getRunningProcessCount(this);
+        avaiMem = SystemInfoUtils.getAvaiMem(this);
+        totalMem = SystemInfoUtils.getTotalMem(this);
+        tv_process_count.setText("运行中的进程：" + processCount + " 个");
+        tv_mem_info.setText("剩余/总内存：" + Formatter.formatFileSize(this, avaiMem) + "/" + Formatter.formatFileSize(this, totalMem));
+    }
+
+    /**
      * 填充数据
      */
     private void fillData() {
@@ -116,10 +130,93 @@ public class TaskMangerActivity extends BaseActivity {
                     @Override
                     public void run() {
                         ll_loading.setVisibility(ProgressBar.INVISIBLE);
-                        lv_task_manger.setAdapter(new TaskMangerAdapter(TaskMangerActivity.this, taskInfos));
+                        adapter = new TaskMangerAdapter(TaskMangerActivity.this);
+                        adapter.setTaskInfos(taskInfos);
+                        adapter.setUserTaskInfo(userTaskInfo);
+                        adapter.setSystemTaskInfo(systemTaskInfo);
+                        lv_task_manger.setAdapter(adapter);
+                        //设置进程管理器页面中的显示信息
+                        setTitle();
                     }
                 });
             }
         }.start();
+    }
+
+    /**
+     * 全选
+     *
+     * @param view
+     */
+    public void selectAll(View view) {
+        for (TaskInfo taskInfo : userTaskInfo) {
+            taskInfo.setChecked(true);
+        }
+        for (TaskInfo taskInfo : systemTaskInfo) {
+            taskInfo.setChecked(true);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 反选
+     *
+     * @param view
+     */
+    public void selectOppo(View view) {
+        for (TaskInfo taskInfo : userTaskInfo) {
+            taskInfo.setChecked(!taskInfo.isChecked());
+        }
+        for (TaskInfo taskInfo : systemTaskInfo) {
+            taskInfo.setChecked(!taskInfo.isChecked());
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 清理
+     *
+     * @param view
+     */
+    public void killTask(View view) {
+        ActivityManager am = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
+        int count = 0;
+        long savedMem = 0;
+        Iterator<TaskInfo> iterator = taskInfos.iterator();
+        while (iterator.hasNext()) {
+            TaskInfo taskInfo = iterator.next();
+            if (taskInfo.isChecked()) {
+                am.killBackgroundProcesses(taskInfo.getPackname());
+                iterator.remove();
+                count++;
+                savedMem += taskInfo.getMemsize();
+                if (taskInfo.isUserTask()) {
+                    userTaskInfo.remove(taskInfo);
+                } else {
+                    systemTaskInfo.remove(taskInfo);
+                }
+            }
+        }
+        avaiMem += savedMem;
+        processCount -= count;
+        ll_loading.setVisibility(ProgressBar.INVISIBLE);
+        adapter = new TaskMangerAdapter(TaskMangerActivity.this);
+        adapter.setTaskInfos(taskInfos);
+        adapter.setUserTaskInfo(userTaskInfo);
+        adapter.setSystemTaskInfo(systemTaskInfo);
+        lv_task_manger.setAdapter(adapter);
+        //设置进程管理器页面中的显示信息
+        tv_process_count.setText("运行中的进程：" + processCount + " 个");
+        tv_mem_info.setText("剩余/总内存：" + Formatter.formatFileSize(TaskMangerActivity.this, avaiMem) + "/" + Formatter.formatFileSize(TaskMangerActivity.this, totalMem));
+        ToastUtils.toastLong("杀死" + count + "进程，释放" + Formatter.formatFileSize(this, savedMem) + "内存！");
+    }
+
+    /**
+     * 设置页面
+     *
+     * @param view
+     */
+    public void enterSetting(View view) {
+
     }
 }

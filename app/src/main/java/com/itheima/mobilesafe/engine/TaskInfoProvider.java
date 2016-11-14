@@ -38,7 +38,7 @@ public class TaskInfoProvider {
             String packname = rap.processName;
             info.setPackname(packname);
             Debug.MemoryInfo[] memoryInfo = am.getProcessMemoryInfo(new int[] { rap.pid });
-            long memsize = memoryInfo[0].getTotalPrivateDirty();
+            long memsize = memoryInfo[0].getTotalPrivateDirty() * 1024;
             info.setMemsize(memsize);
             try {
                 ApplicationInfo applicationInfo = pm.getApplicationInfo(packname, 0);
@@ -52,7 +52,7 @@ public class TaskInfoProvider {
                     info.setUserTask(false);
                 }
             } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
                 info.setIcon(context.getResources().getDrawable(R.mipmap.ic_default));
                 info.setName(packname);
             }
