@@ -2,6 +2,7 @@ package com.itheima.mobilesafe.taskmanger;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.Formatter;
 import android.view.View;
 import android.widget.AbsListView;
@@ -217,6 +218,13 @@ public class TaskMangerActivity extends BaseActivity {
      * @param view
      */
     public void enterSetting(View view) {
+        Intent intent = new Intent(this, TaskSettingActivity.class);
+        startActivityForResult(intent, 0);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        adapter.notifyDataSetChanged();
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

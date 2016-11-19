@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:itheima="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+        style="@style/title_style"
+        android:text="进程管理设置"/>
+
+    <com.itheima.mobilesafe.ui.SettingItemView
+        android:id="@+id/siv_show_sys_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        itheima:desc_off=""
+        itheima:desc_on=""
+        itheima:title="显示系统进程"/>
+
+    <com.itheima.mobilesafe.ui.SettingItemView
+        android:id="@+id/siv_task_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        itheima:desc_off="未开启"
+        itheima:desc_on="已开启"
+        itheima:title="定时清理系统进程"/>
+
+    <com.itheima.mobilesafe.ui.SettingClickView
+        android:id="@+id/scv_setting_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        itheima:title="清理时间间隔设置"/>
+
+    <com.itheima.mobilesafe.ui.SettingItemView
+        android:id="@+id/siv_lock_task_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        itheima:desc_off="未开启"
+        itheima:desc_on="已开启"
+        itheima:title="锁屏清理系统进程"/>
+
+</LinearLayout>

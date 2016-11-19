@@ -82,6 +82,10 @@
         <activity android:name=".atools.NumberAddressQueryActivity"/>
         <!-- 通讯卫士 -->
         <activity android:name=".callsafe.CallSmsSafeActivity"/>
+        <!-- 进程管理器 -->
+        <activity android:name=".taskmanger.TaskMangerActivity"/>
+        <!-- 进程管理器设置 -->
+        <activity android:name=".taskmanger.TaskSettingActivity"/>
         <!-- 软件管理 -->
         <activity android:name=".appmanger.AppMangerActivity">
             <intent-filter>
@@ -90,9 +94,6 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <!-- 进程管理器-->
-        <activity android:name=".taskmanger.TaskMangerActivity"/>
-
 
         <!-- 引导广播接收器：用于接收开机的广播 -->
         <receiver android:name=".receiver.BootCompleteReceiver">
@@ -108,14 +109,13 @@
             </intent-filter>
         </receiver>
         <!-- 设备管理员广播接收者 -->
-        <receiver android:name=".receiver.MyDeviceAdminReceiver">
-            android:label="@string/sample_device_admin"
-            android:description="@string/sample_device_admin_description"
+        <receiver
+            android:name=".receiver.MyDeviceAdminReceiver"
+            android:label="手机卫士"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
             <meta-data
                 android:name="android.app.device_admin"
                 android:resource="@xml/device_admin_sample"/>
-
             <intent-filter>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
             </intent-filter>
@@ -127,6 +127,7 @@
         <service android:name=".service.AddressService"/>
         <!-- 黑名单拦截服务 -->
         <service android:name=".service.CallSmsSafeService"/>
+        <service android:name=".service.AutoCleanService"/>
     </application>
 
 </manifest>

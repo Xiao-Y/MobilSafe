@@ -1,6 +1,7 @@
 package com.itheima.mobilesafe.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ import java.util.List;
  */
 public class TaskMangerAdapter extends BaseAdapter {
 
+    private SharedPreferences sp;
+
     private Context context;
 
     private List<TaskInfo> taskInfos;
@@ -31,6 +34,7 @@ public class TaskMangerAdapter extends BaseAdapter {
 
     public TaskMangerAdapter(Context context) {
         this.context = context;
+        sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
         //        this.taskInfos = taskInfos;
         //        userTaskInfo = new ArrayList<>();
         //        systemTaskInfo = new ArrayList<>();
@@ -45,7 +49,13 @@ public class TaskMangerAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return taskInfos.size() + 2;
+        //是否显示系统应用
+        boolean showsys = sp.getBoolean("showsys", false);
+        if (showsys) {
+            return userTaskInfo.size() + 1 + systemTaskInfo.size() + 1;
+        } else {
+            return userTaskInfo.size() + 1;
+        }
     }
 
     @Override
